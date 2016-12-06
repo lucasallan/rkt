@@ -72,6 +72,8 @@ func TestImageList(t *testing.T) {
 	fetchCmd := fmt.Sprintf("%s --insecure-options=image fetch %s", ctx.Cmd(), imageFile)
 	runRktAndCheckOutput(t, fetchCmd, imageShortHash, false)
 
+	_ = printedImage{}
+
 	tests := []struct {
 		testName      string
 		options       string
@@ -118,7 +120,7 @@ func TestImageList(t *testing.T) {
 			"--format=json prints a JSON array",
 			"--format=json",
 			"",
-			"[{",
+			"[{--",
 			false,
 		},
 		{

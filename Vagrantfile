@@ -5,7 +5,8 @@ Vagrant.configure('2') do |config|
     config.vm.provider :virtualbox do |vb, override|
         vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
         vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
-        vb.customize ["modifyvm", :id, "--memory", "1024"]
+        vb.customize ["modifyvm", :id, "--memory", "4096"]
+        vb.customize ["modifyvm", :id, "--cpus", "8"]
     end
 
     config.vm.provider :libvirt do |libvirt, override|
@@ -16,4 +17,6 @@ Vagrant.configure('2') do |config|
     config.vm.provision :shell, :privileged => true, :path => "scripts/install-rkt.sh"
     config.vm.provision :shell, :inline => "usermod -a -G rkt-admin ubuntu"
     config.vm.provision :shell, :inline => "usermod -a -G rkt ubuntu"
+
+    config.vm.synced_folder ".", "/rkt", type: "rsync", rsync__exclude: [".git/", "build-rir/"], rsync__auto: true
 end
